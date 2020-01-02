@@ -8,18 +8,20 @@ double subA(int id);
 
 void main()
 {
-    
+    int area[4];
     double E = 1;
 
-    #pragma omp parallel num_threads(2)
+    #pragma omp parallel num_threads(4)
     {
-        int id = omp_get_thread_num();
-
+       
         #pragma omp critical
         {
-            E *= subA(id);
+            int id = omp_get_thread_num();
+            area[id] = subA(id);
         }
     }
+
+    E = (area[0] * area[1]) + (area[2] * area[3]);
 
     printf("E: %f\n", E);
 }
@@ -31,6 +33,6 @@ double A(int r)
 
 double subA(int id)
 {    
-    return A((id + 1) * (id + 1) * 10) + A((id + 1) * (id + 1) * 20);
+    return A(pow(2, id) * 10);
 }
 
