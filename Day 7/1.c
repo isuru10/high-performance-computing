@@ -19,15 +19,20 @@ if (rank == 0) {
   rc = MPI_Recv(&inmsg, 1, MPI_CHAR, source, tag, MPI_COMM_WORLD, &Stat);
 
   printf("Inmsg:%c at rank %d\n", inmsg, rank);
+  printf("rc: %d\n", rc);
   }
 
 else if (rank == 1) {
   dest = 0;
   source = 0;
+
+  outmsg = 'y';
+
   rc = MPI_Recv(&inmsg, 1, MPI_CHAR, source, tag, MPI_COMM_WORLD, &Stat);
   rc = MPI_Send(&outmsg, 1, MPI_CHAR, dest, tag, MPI_COMM_WORLD);
 
   printf("Inmsg:%c at rank %d\n", inmsg, rank);
+  printf("rc: %d\n", rc);
   }
 
 MPI_Finalize();
